@@ -1,0 +1,1446 @@
+<meta charset="utf-8">
+<title>Claude Certified Architect – Professional · Practitioner Workbook</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5a5a5a; --faint:#8a8a8a;
+    --rule:#e3e3e0; --rule2:#d3d3ce;
+    --accent:#cc785c; --accent-dk:#a8532f;
+    --bg-soft:#f7f4f0; --bg-soft2:#f0ece6;
+    --good:#2f7d4f; --good-bg:#eef6f0;
+    --warn:#9a5b00; --warn-bg:#fbf3e6;
+    --bad:#a3352a; --bad-bg:#faeeec;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  body{
+    font-family:"Georgia","Times New Roman",serif;
+    color:var(--ink); line-height:1.5; font-size:11pt; margin:0;
+  }
+  .sans{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
+
+  /* Page geometry for print */
+  @page{ size:Letter; margin:18mm 16mm 16mm 16mm; }
+  .page{ page-break-after:always; }
+  .page:last-child{ page-break-after:auto; }
+  h1,h2,h3,h4{ font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; line-height:1.2; }
+  h2{ break-after:avoid; } h3,h4{ break-after:avoid; }
+  table{ break-inside:avoid; }
+  .card,.cbox,.qcard{ break-inside:avoid; }
+
+  /* ---------- Cover ---------- */
+  .cover{ padding:14mm 4mm 0; }
+  .cover .kicker{ font-family:-apple-system,Arial,sans-serif; letter-spacing:.18em;
+    text-transform:uppercase; font-size:9.5pt; color:var(--accent-dk); font-weight:700; }
+  .cover .rule-top{ height:4px; background:var(--accent); border-radius:2px; margin-bottom:22px; width:100%; }
+  .cover h1{ font-size:34pt; margin:.15em 0 .05em; letter-spacing:-.01em; }
+  .cover .sub{ font-size:15pt; color:var(--muted); font-family:-apple-system,Arial,sans-serif; font-weight:600; margin-bottom:4px;}
+  .cover .meta{ color:var(--faint); font-family:-apple-system,Arial,sans-serif; font-size:10pt; margin-top:2px;}
+  .cover .lede{ font-size:12pt; color:#333; max-width:34em; margin:26px 0 20px; }
+
+  .facts{ display:grid; grid-template-columns:1fr 1fr; gap:10px 26px; margin-top:8px;
+    font-family:-apple-system,Arial,sans-serif; font-size:10pt; border-top:1px solid var(--rule);
+    padding-top:16px; }
+  .facts div{ display:flex; justify-content:space-between; border-bottom:1px dotted var(--rule2); padding:5px 0;}
+  .facts .k{ color:var(--muted); } .facts .v{ font-weight:700; color:var(--ink); text-align:right;}
+
+  .weightbars{ margin-top:20px; font-family:-apple-system,Arial,sans-serif; font-size:9.5pt;}
+  .wb{ display:grid; grid-template-columns:20px 1fr 40px; align-items:center; gap:10px; margin:6px 0;}
+  .wb .n{ color:var(--faint); font-variant-numeric:tabular-nums;}
+  .wb .lbl{ display:flex; align-items:center; gap:8px;}
+  .wb .track{ position:relative; height:14px; background:var(--bg-soft2); border-radius:7px; overflow:hidden; flex:1;}
+  .wb .barrow{ display:grid; grid-template-columns:1fr; }
+  .wb .fill{ position:absolute; inset:0 auto 0 0; background:linear-gradient(90deg,var(--accent),var(--accent-dk)); border-radius:7px;}
+  .wb .name{ min-width:210px;}
+  .wb .pct{ font-weight:700; text-align:right; font-variant-numeric:tabular-nums;}
+
+  /* ---------- Generic sections ---------- */
+  .section-head{ display:flex; align-items:baseline; gap:12px; border-bottom:2px solid var(--ink);
+    padding-bottom:6px; margin:0 0 14px; }
+  .section-head .dnum{ font-family:-apple-system,Arial,sans-serif; font-weight:800; font-size:11pt;
+    color:#fff; background:var(--accent-dk); border-radius:5px; padding:3px 9px; letter-spacing:.02em;}
+  .section-head h2{ font-size:18pt; margin:0; flex:1;}
+  .section-head .w{ font-family:-apple-system,Arial,sans-serif; font-size:10pt; color:var(--accent-dk); font-weight:700;}
+
+  h2.plain{ font-size:18pt; border-bottom:2px solid var(--ink); padding-bottom:6px; margin:0 0 14px;}
+  h3{ font-size:12.5pt; margin:18px 0 6px; color:#111;}
+  h4{ font-size:11pt; margin:12px 0 4px; color:var(--accent-dk); font-family:-apple-system,Arial,sans-serif;}
+
+  p{ margin:7px 0; }
+  ul,ol{ margin:6px 0 6px; padding-left:20px; }
+  li{ margin:3px 0; }
+  b,strong{ color:#111; }
+  .lead{ color:var(--muted); font-style:italic; margin-bottom:12px;}
+
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:9.2pt; background:var(--bg-soft);
+    padding:1px 5px; border-radius:4px; color:#7a3b23;}
+
+  /* Tables */
+  table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:9.8pt;
+    font-family:-apple-system,Arial,sans-serif; }
+  th,td{ text-align:left; padding:7px 9px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  thead th{ background:var(--bg-soft); color:#222; border-bottom:1.5px solid var(--rule2); font-size:9pt;
+    text-transform:uppercase; letter-spacing:.04em;}
+  tbody tr:nth-child(even){ background:#faf9f7;}
+
+  /* Callout boxes */
+  .cbox{ border-radius:8px; padding:10px 14px; margin:12px 0; font-size:10pt;
+    font-family:-apple-system,Arial,sans-serif; border:1px solid var(--rule2);}
+  .cbox .t{ font-weight:800; font-size:9pt; text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;}
+  .cbox.tip{ background:var(--good-bg); border-color:#cfe6d6;} .cbox.tip .t{ color:var(--good);}
+  .cbox.warn{ background:var(--warn-bg); border-color:#eeddbd;} .cbox.warn .t{ color:var(--warn);}
+  .cbox.key{ background:var(--bg-soft); border-color:var(--rule2);} .cbox.key .t{ color:var(--accent-dk);}
+  .cbox.exam{ background:#eef2f8; border-color:#d3ddec;} .cbox.exam .t{ color:#2f5aa0;}
+
+  /* Do/Don't split */
+  .dd{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;}
+  .dd .col{ border-radius:8px; padding:8px 12px; font-family:-apple-system,Arial,sans-serif; font-size:9.6pt;}
+  .dd .do{ background:var(--good-bg); border:1px solid #cfe6d6;}
+  .dd .dont{ background:var(--bad-bg); border:1px solid #eccfca;}
+  .dd h4{ margin:2px 0 6px; font-family:-apple-system,Arial,sans-serif;}
+  .dd .do h4{ color:var(--good);} .dd .dont h4{ color:var(--bad);}
+  .dd ul{ padding-left:16px; margin:0;}
+
+  .obj{ background:var(--bg-soft); border-left:3px solid var(--accent); padding:8px 12px; margin:0 0 14px;
+    font-family:-apple-system,Arial,sans-serif; font-size:9.6pt; border-radius:0 6px 6px 0;}
+  .obj b{ color:var(--accent-dk); }
+
+  /* Q&A */
+  .qcard{ border:1px solid var(--rule2); border-radius:8px; padding:12px 14px; margin:12px 0;
+    font-family:-apple-system,Arial,sans-serif; font-size:10pt;}
+  .qcard .qd{ font-size:8.5pt; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-dk); font-weight:700;}
+  .qcard .q{ font-weight:600; margin:4px 0 8px;}
+  .qcard .opt{ margin:3px 0; padding-left:4px;}
+  .qcard .ans{ margin-top:8px; background:var(--good-bg); border-radius:6px; padding:7px 10px; font-size:9.5pt;}
+  .qcard .ans b{ color:var(--good);}
+
+  .toc{ font-family:-apple-system,Arial,sans-serif; font-size:10.5pt; }
+  .toc div{ display:flex; justify-content:space-between; border-bottom:1px dotted var(--rule2); padding:6px 2px;}
+  .toc .n{ color:var(--faint); width:26px;}
+  .toc a{ color:var(--ink); text-decoration:none; flex:1;}
+  .toc .pg{ color:var(--faint);}
+
+  .footer-note{ font-family:-apple-system,Arial,sans-serif; font-size:8.5pt; color:var(--faint);
+    text-align:center; border-top:1px solid var(--rule); padding-top:8px; margin-top:16px;}
+  .mini{ font-size:9pt; color:var(--muted); font-family:-apple-system,Arial,sans-serif;}
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0 22px;}
+  .pill{ display:inline-block; background:var(--bg-soft2); border-radius:20px; padding:2px 10px; font-size:8.5pt;
+    font-family:-apple-system,Arial,sans-serif; color:#444; margin:2px 3px 2px 0;}
+
+/* ---- workbook additions ---- */
+.modhead{ display:flex; align-items:baseline; gap:10px; margin:20px 0 8px;
+  border-bottom:1.5px solid var(--rule2); padding-bottom:5px; break-after:avoid;}
+.modhead .mn{ font-family:-apple-system,Arial,sans-serif; font-weight:800; font-size:9pt; color:#fff;
+  background:var(--accent); border-radius:4px; padding:2px 7px; letter-spacing:.02em; white-space:nowrap;}
+.modhead h3{ font-size:13pt; margin:0; flex:1;}
+.modhead .tag{ font-family:-apple-system,Arial,sans-serif; font-size:8.5pt; color:var(--faint); text-transform:uppercase; letter-spacing:.05em;}
+.lab{ background:#f4f7fb; border:1px solid #d3ddec; border-left:3px solid #2f5aa0; border-radius:0 8px 8px 0;
+  padding:9px 13px; margin:11px 0; font-family:-apple-system,Arial,sans-serif; font-size:9.5pt;}
+.lab .t{ font-weight:800; font-size:8.5pt; text-transform:uppercase; letter-spacing:.06em; color:#2f5aa0; margin-bottom:4px;}
+.lab ol,.lab ul{ margin:4px 0; padding-left:18px;}
+.prompt{ background:#fbfaf8; border:1px solid var(--rule2); border-radius:6px; padding:8px 11px; margin:8px 0;
+  font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.6pt; color:#333; white-space:pre-wrap; line-height:1.45;}
+.prompt .lbl{ font-family:-apple-system,Arial,sans-serif; font-size:8pt; font-weight:700; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--faint); display:block; margin-bottom:4px;}
+.steps{ counter-reset:s; padding-left:0; list-style:none; margin:8px 0;}
+.steps li{ counter-increment:s; position:relative; padding-left:26px; margin:5px 0; font-size:9.8pt;
+  font-family:-apple-system,Arial,sans-serif;}
+.steps li::before{ content:counter(s); position:absolute; left:0; top:1px; width:18px; height:18px;
+  background:var(--bg-soft2); color:var(--accent-dk); border-radius:50%; font-size:8pt; font-weight:800;
+  display:flex; align-items:center; justify-content:center;}
+.grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0;}
+.card{ border:1px solid var(--rule2); border-radius:8px; padding:9px 12px; font-family:-apple-system,Arial,sans-serif; font-size:9.3pt;}
+.card h4{ margin:0 0 5px;}
+</style>
+<style>
+.code{ background:#1e1e1c; color:#e8e6e1; border-radius:6px; padding:9px 12px; margin:8px 0;
+  font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.3pt; white-space:pre; overflow-x:auto; line-height:1.45;}
+.code .c{ color:#8f8a80; } .code .k{ color:#e0a672; } .code .s{ color:#a8c8a0; }
+.code .lbl{ font-family:-apple-system,Arial,sans-serif; font-size:7.5pt; font-weight:700; text-transform:uppercase;
+  letter-spacing:.05em; color:#8f8a80; display:block; margin-bottom:5px;}
+table.tight td, table.tight th{ padding:5px 7px; font-size:9.2pt;}
+.mono{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.8pt;}
+</style>
+<style>
+.adr{ border:1px solid var(--rule2); border-left:3px solid var(--accent-dk); border-radius:0 8px 8px 0;
+  padding:9px 13px; margin:11px 0; font-family:-apple-system,Arial,sans-serif; font-size:9.4pt; background:#fbfaf8;}
+.adr .t{ font-weight:800; font-size:8.5pt; text-transform:uppercase; letter-spacing:.06em; color:var(--accent-dk); margin-bottom:5px;}
+.scen{ background:#f4f7fb; border:1px solid #d3ddec; border-radius:8px; padding:9px 13px; margin:11px 0;
+  font-family:-apple-system,Arial,sans-serif; font-size:9.4pt;}
+.scen .t{ font-weight:800; font-size:8.5pt; text-transform:uppercase; letter-spacing:.06em; color:#2f5aa0; margin-bottom:5px;}
+.tri{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; margin:10px 0; font-family:-apple-system,Arial,sans-serif; font-size:9pt;}
+.tri > div{ border:1px solid var(--rule2); border-radius:7px; padding:8px 10px;}
+.tri h4{ margin:0 0 4px; font-size:9.5pt;}
+</style>
+<!-- ============================ COVER ============================ -->
+<div class="page cover">
+  <div class="rule-top"></div>
+  <div class="kicker">Claude Certification Program · Exam CCAR-P</div>
+  <h1>Practitioner Workbook</h1>
+  <div class="sub">Claude Certified Architect — Professional</div>
+  <div class="meta">29 modules across 7 domains · solution architecture, RAG &amp; integration, evaluation, governance, enterprise lifecycle</div>
+
+  <p class="lede">A professional-level credential for people who own the whole system: eliciting the
+  requirement, choosing the architecture, integrating it into an enterprise safely, proving it works,
+  governing it, and explaining the trade-off to a VP who doesn't want the jargon. This workbook is built
+  to the published blueprint and weighted to it — <b>Integration is the single heaviest domain</b>, and
+  the exam is scenario-based throughout.</p>
+
+  <div class="facts">
+    <div><span class="k">Items</span><span class="v">63 scored</span></div>
+    <div><span class="k">Time</span><span class="v">120 minutes</span></div>
+    <div><span class="k">Passing score</span><span class="v">720 (100–1000)</span></div>
+    <div><span class="k">Scoring</span><span class="v">Criterion-referenced</span></div>
+    <div><span class="k">Fee</span><span class="v">$175 USD</span></div>
+    <div><span class="k">Validity</span><span class="v">12 months</span></div>
+    <div><span class="k">Modules</span><span class="v">29 · 26 design drills</span></div>
+    <div><span class="k">Practice items</span><span class="v">30 with rationale</span></div>
+  </div>
+
+  <div class="weightbars">
+    <div class="mini" style="margin-bottom:8px;font-weight:700;color:#222;">Blueprint weight by domain — Integration is the heaviest; allocate study time accordingly</div>
+    <div class="wb"><span class="n">3</span><span class="lbl"><span class="name">Integration</span></span><span class="pct">19%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:100%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">1</span><span class="lbl"><span class="name">Solution Design &amp; Architecture</span></span><span class="pct">17%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:89%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">4</span><span class="lbl"><span class="name">Evaluation, Testing &amp; Optimization</span></span><span class="pct">16%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:84%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">5</span><span class="lbl"><span class="name">Governance, Safety &amp; Risk</span></span><span class="pct">14%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:74%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">6</span><span class="lbl"><span class="name">Stakeholder Comms &amp; Lifecycle</span></span><span class="pct">14%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:74%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">2</span><span class="lbl"><span class="name">Models, Prompting &amp; Context</span></span><span class="pct">13%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:68%"></span></span><span class="pct"></span></div>
+    <div class="wb"><span class="n">7</span><span class="lbl"><span class="name">Developer Productivity &amp; Enablement</span></span><span class="pct">7%</span></div>
+    <div class="wb"><span class="n"></span><span class="track"><span class="fill" style="width:37%"></span></span><span class="pct"></span></div>
+  </div>
+
+  <div class="footer-note">Unofficial study aid · Not affiliated with or endorsed by Anthropic · Companion to the CCAR-P simulator exams</div>
+</div>
+
+<!-- ============================ HOW TO USE ============================ -->
+<div class="page">
+  <h2 class="plain">How to use this workbook</h2>
+
+  <div class="cbox key"><div class="t">Who this exam is actually for</div>
+  Mid- to senior solution architects, AI/ML engineers, and technical leads. The guide recommends (but does
+  not require) <b>3+ years in systems architecture or platform engineering and 6+ months hands-on with
+  Claude or a comparable LLM system in production</b>. It is explicitly <em>not</em> aimed at entry-level
+  developers or at roles limited to prompt-writing without broader system-design responsibility.<br><br>
+  That shapes every item: you are being assessed as the person accountable for a system in an
+  organization — not as someone who knows an API.</div>
+
+  <div class="cbox warn"><div class="t">Source &amp; currency</div>
+  Format, weights, and logistics below come from an official-format CCAR-P exam guide (v1.0, effective
+  July 2026) surfaced via a third-party prep resource. It is more complete than the CCAR-F guide — it
+  states full logistics. <b>Confirm current details with Anthropic and Pearson VUE before you register.</b>
+  Platform specifics (model IDs, prices, feature names) drift; this exam tests architectural judgment,
+  not version strings.</div>
+
+  <h3>Logistics worth knowing cold</h3>
+  <table class="tight">
+    <thead><tr><th style="width:24%">Item</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td>Format</td><td>63 scored items, multiple-choice and multiple-response. <b>Each item states how many responses to select.</b></td></tr>
+      <tr><td>Time</td><td>120 minutes — just under 2 minutes per item. Scenario stems are long; budget reading time.</td></tr>
+      <tr><td>Scoring</td><td><b>Criterion-referenced</b> against a fixed standard from a formal standard-setting study — not curved against other candidates.</td></tr>
+      <tr><td>Passing</td><td><b>720</b> on a 100–1000 scale.</td></tr>
+      <tr><td>Results</td><td>Pass/fail plus scaled score, and percent-correct by domain. <b>Domain percentages are informational only</b> — pass/fail comes from the total.</td></tr>
+      <tr><td>Retakes</td><td>14 days after a 1st fail, 30 after a 2nd, 90 after a 3rd. Max 4 attempts per rolling 12 months; fee applies each time.</td></tr>
+      <tr><td>Renewal</td><td>12-month validity. On-time renewal is a free, non-proctored assessment; a <b>lapsed</b> credential means retaking the full exam at full fee.</td></tr>
+      <tr><td>Exam day</td><td>Government photo ID matching your registration exactly · stay in webcam view · clear workspace · no phones, watches, notes, or second monitors. Misconduct voids results and can revoke the credential.</td></tr>
+      <tr><td>Appeals</td><td>Within 14 days. The standard-setting outcome and individual item content are <b>not</b> appealable.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox exam"><div class="t">The five questions behind almost every CCAR-P item</div>
+  <b>1. What did the stakeholder actually ask for?</b> (Often the stem describes a constraint the proposed design misses.)<br>
+  <b>2. What is the simplest architecture that satisfies it?</b> (Workflow before agent; agent before multi-agent.)<br>
+  <b>3. What is the least privilege that makes it work?</b> (Domain 3 is the heaviest domain and this is its spine.)<br>
+  <b>4. How would you know it works — and know when it stops working?</b> (Evaluation is not a launch gate; it's a lifecycle.)<br>
+  <b>5. Who is accountable, and can you explain the trade-off to them?</b><br>
+  <span class="mini">Run these five before reading the options and most distractors eliminate themselves.</span></div>
+
+  <div class="cbox tip"><div class="t">How the items are written — and how to read them</div>
+  Stems are realistic vignettes with a named organization and role (a fintech loan-underwriting assistant,
+  a healthcare clinical documentation assistant, an e-commerce returns assistant, a B2B SaaS
+  report-generation assistant). <b>The domain and the vertical are mostly set dressing; the decision is
+  generic.</b> Read for the constraint, not the industry. Distractors are usually real practices that are
+  simply <em>the wrong control for this problem</em> — monitoring where prevention was needed, a confirmation
+  prompt where scoping was needed, more model capability where more context was needed.</div>
+
+  <h2 class="plain" style="margin-top:22px;">Contents</h2>
+  <div class="toc">
+    <div><span class="n">D1</span><a>Solution Design &amp; Architecture — 5 modules (17%)</a><span class="pg">5</span></div>
+    <div><span class="n">D2</span><a>Claude Models, Prompting &amp; Context Engineering — 4 modules (13%)</a><span class="pg">10</span></div>
+    <div><span class="n">D3</span><a>Integration — 6 modules (19%)</a><span class="pg">14</span></div>
+    <div><span class="n">D4</span><a>Evaluation, Testing &amp; Optimization — 4 modules (16%)</a><span class="pg">21</span></div>
+    <div><span class="n">D5</span><a>Governance, Safety &amp; Risk Management — 4 modules (14%)</a><span class="pg">26</span></div>
+    <div><span class="n">D6</span><a>Stakeholder Communication &amp; Lifecycle — 4 modules (14%)</a><span class="pg">30</span></div>
+    <div><span class="n">D7</span><a>Developer Productivity &amp; Enablement — 2 modules (7%)</a><span class="pg">34</span></div>
+    <div><span class="n">—</span><a>6-week study plan, tracker &amp; answer key</a><span class="pg">37</span></div>
+  </div>
+</div>
+<!-- ============================ DOMAIN 1 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D1</span><h2>Solution Design &amp; Architecture</h2><span class="w">17% · 5 modules</span></div>
+  <p class="lead">About 11 of 63 items. The domain that sets up every other one: pattern selection,
+  non-functional requirements, and defensible trade-offs.</p>
+
+  <!-- 1.1 -->
+  <div class="modhead"><span class="mn">1.1</span><h3>From Requirement to Architecture</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Turn a business requirement into an architecture; identify the
+  constraint that decides the design; recognise when the stated ask conflicts with the real need.</div>
+
+  <div class="cbox key"><div class="t">The professional-level move</div>
+  A CCAR-P scenario often hands you a <b>proposed solution</b> and a <b>constraint that quietly rules it
+  out</b>. Your job is not to implement the proposal — it's to notice the conflict and say so. "The team
+  wants an autonomous agent, and every decision must be reproducible for auditors" is not a build request;
+  it's a mismatch you are expected to catch.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Requirement signal</th><th>What it constrains</th></tr></thead>
+    <tbody>
+      <tr><td>"reproducible", "auditable", "explain to a regulator"</td><td>Determinism. Push decisions into code; the model produces evidence, not verdicts.</td></tr>
+      <tr><td>"sub-second", "in the checkout flow"</td><td>Latency. Rules out agent loops and multi-hop retrieval.</td></tr>
+      <tr><td>"millions per month", "per-transaction margin"</td><td>Unit cost. Drives tier selection, caching, batching.</td></tr>
+      <tr><td>"depends what it finds", "can't enumerate the cases"</td><td>Genuine adaptivity. This is the honest agent signal.</td></tr>
+      <tr><td>"must never", "under no circumstances"</td><td>Enforcement. Belongs in the harness or the authorization layer, never in a prompt.</td></tr>
+      <tr><td>"our knowledge base changes weekly"</td><td>Freshness. Retrieval, not fine-tuned or in-prompt knowledge.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.2 -->
+  <div class="modhead"><span class="mn">1.2</span><h3>Pattern Selection</h3><span class="tag">~90 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Choose among single call, workflow, agent, multi-agent, and RAG —
+  and justify the choice against the constraint, not against sophistication.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:18%">Pattern</th><th style="width:32%">Fits when</th><th>Characteristic misuse</th></tr></thead>
+    <tbody>
+      <tr><td><b>Single call</b></td><td>One transformation: classify, extract, summarize, rewrite.</td><td>Wrapped in an agent loop that adds latency and nondeterminism for nothing.</td></tr>
+      <tr><td><b>Workflow</b></td><td><b>Known, fixed sequence with verifiable success.</b> Extract → apply rules → output.</td><td>Replaced by an agent because "agents are more flexible" — losing the verifiability that was the requirement.</td></tr>
+      <tr><td><b>Agent</b></td><td>The right next step <b>genuinely depends on what's discovered</b> and can't be enumerated up front.</td><td>Applied to a documented procedure, producing variable output where consistency was needed.</td></tr>
+      <tr><td><b>Multi-agent</b></td><td>Real context isolation, parallelism, or independent verification.</td><td>Five personas sharing one context and one tool set — cost without benefit.</td></tr>
+      <tr><td><b>RAG</b></td><td>Answers must be grounded in a corpus that is large, changing, or authoritative.</td><td>Used where the knowledge is small and static enough to sit in a cached prompt.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">The most-tested pair in this domain</div>
+  <b>Workflow vs. agent.</b> Fixed sequence + easily verifiable success → <b>workflow</b>. Next step depends
+  on what's found + cannot be enumerated → <b>agent</b>. Both directions are tested, and both wrong answers
+  are attractive: over-engineering looks sophisticated, under-engineering looks disciplined. Read for
+  whether the <em>sequence is knowable in advance</em> — that single property decides it.</div>
+
+  <!-- 1.3 -->
+  <div class="modhead"><span class="mn">1.3</span><h3>Reference Architecture of a Claude Solution</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Name the components of a production Claude system and what each owns.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Layer</th><th style="width:32%">Owns</th><th>Failure if missing</th></tr></thead>
+    <tbody>
+      <tr><td><b>Experience</b></td><td>UI, streaming, degraded states, disclosure that AI was involved.</td><td>Users see spinners and unexplained failures.</td></tr>
+      <tr><td><b>Orchestration</b></td><td>Pattern execution, control flow, budgets, checkpoints.</td><td>Unbounded loops; no place to enforce limits.</td></tr>
+      <tr><td><b>Prompt &amp; context</b></td><td>System prompts, templates, context assembly, versioning.</td><td>Prompt drift; no reproducibility.</td></tr>
+      <tr><td><b>Knowledge</b></td><td>Retrieval, indexing, freshness, citations.</td><td>Stale or ungrounded answers.</td></tr>
+      <tr><td><b>Tools &amp; integration</b></td><td>Capability surface, authorization, idempotency.</td><td>Over-privileged agents; duplicated side effects.</td></tr>
+      <tr><td><b>Governance</b></td><td>Policy, approvals, audit trail, data classification.</td><td>Nothing to show a regulator.</td></tr>
+      <tr><td><b>Evaluation &amp; observability</b></td><td>Eval sets, metrics, alarms, cost tracking.</td><td>Silent regression; invisible cost growth.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Use this as a gap-finding checklist</div>
+  When a scenario describes a design, run the seven layers and ask which one is missing. CCAR-P items very
+  often describe an otherwise-reasonable system with exactly one absent layer — usually governance,
+  evaluation, or authorization — and ask what you'd add before production.</div>
+
+  <!-- 1.4 -->
+  <div class="modhead"><span class="mn">1.4</span><h3>Non-Functional Requirements</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Elicit and design to NFRs; recognise when an NFR invalidates a pattern.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:20%">NFR</th><th style="width:30%">Ask the stakeholder</th><th>Architectural consequence</th></tr></thead>
+    <tbody>
+      <tr><td><b>Latency</b></td><td>p95 target? Is a human waiting?</td><td>Tight budget rules out agent loops and multi-hop retrieval; drives streaming and smaller tiers.</td></tr>
+      <tr><td><b>Throughput</b></td><td>Peak vs. average? Bursty?</td><td>Rate-limit headroom, queuing, batch offload.</td></tr>
+      <tr><td><b>Accuracy</b></td><td>What error rate is acceptable, and who bears the cost?</td><td>Sets evaluation bar, review depth, and whether automation is permissible at all.</td></tr>
+      <tr><td><b>Cost</b></td><td>Budget per unit of work?</td><td>Tier, caching, batching, context discipline.</td></tr>
+      <tr><td><b>Availability</b></td><td>What happens when the provider is degraded?</td><td>Fallback tier, cached answers, graceful unavailable state.</td></tr>
+      <tr><td><b>Compliance</b></td><td>Which regimes and data classes?</td><td>Residency, retention, approved channels, audit trail.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.5 -->
+  <div class="modhead"><span class="mn">1.5</span><h3>Trade-off Analysis &amp; Decision Records</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Make trade-offs explicit and document them so they survive staff turnover.</div>
+
+  <div class="cbox key"><div class="t">You cannot optimize latency, cost, and accuracy simultaneously</div>
+  Name which one binds, optimize it, and <b>state what you gave up</b>. A design document claiming to
+  improve all three at once is hiding an assumption — and on this exam, an option promising exactly that
+  is a distractor.</div>
+
+  <div class="adr"><div class="t">The five-line decision record</div>
+  <b>Context</b> — the situation and the binding constraint · <b>Decision</b> — what you chose ·
+  <b>Alternatives</b> — what you rejected and why · <b>Consequences</b> — the cost and what it makes harder ·
+  <b>Revisit when</b> — the measurable signal that would change the decision.<br>
+  <span class="mini">That last line is what distinguishes an architect from someone with a preference, and
+  it is the natural artifact for Domain 6's stakeholder conversations.</span></div>
+
+  <div class="scen"><div class="t">Design drill 1 — Four systems, four architectures</div>
+  For each, choose a pattern, name the binding NFR, and write the five-line ADR:
+  <ol>
+    <li><b>Fintech:</b> loan underwriting — extract fields, apply documented policy rules, produce a decision packet. Auditors review every case.</li>
+    <li><b>Healthcare:</b> clinical documentation assistant where the next step (look up, clarify, synthesize, stop) depends on what's found.</li>
+    <li><b>E-commerce:</b> returns assistant handling 40,000 requests/day inside a checkout-adjacent flow.</li>
+    <li><b>B2B SaaS:</b> report generation over a policy corpus that changes weekly.</li>
+  </ol>
+  <b>Then invert each:</b> name the constraint that would flip your pattern choice. If you can't, you chose
+  by taste rather than by constraint — which is precisely what the exam distinguishes.</div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 1 — Solution Design &amp; Architecture</div>
+</div>
+
+<div class="page">
+  <h3>Domain 1 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P1-1 · Module 1.2</div>
+  <div class="q">A fintech platform team needs a loan-underwriting assistant to follow the same known sequence
+  every time — extract fields, apply policy rules, produce output — with easily verifiable success. Which
+  pattern fits?</div>
+  <div class="opt">A. An autonomous agent that selects its own next step</div>
+  <div class="opt">B. A workflow-based pattern with fixed, verifiable steps</div>
+  <div class="opt">C. A multi-agent system with a specialist per step</div>
+  <div class="opt">D. A single prompt performing all three stages</div>
+  <div class="ans"><b>B.</b> Known sequence plus easily verifiable success is the workflow signature.
+  A and C add variability and complexity the task doesn't need — and in underwriting, variability is a
+  regulatory problem, not just an engineering one. D collapses three independently verifiable steps into
+  one opaque one, discarding the verifiability that was a stated requirement.</div></div>
+
+  <div class="qcard"><div class="qd">Item P1-2 · Module 1.2</div>
+  <div class="q">A healthcare team is designing a clinical documentation assistant where the right next step
+  — look something up, ask a clarifying question, synthesize, or stop — genuinely depends on what's
+  discovered along the way. Which architecture fits?</div>
+  <div class="opt">A. A fixed workflow with branches for each known case</div>
+  <div class="opt">B. An agentic architecture that decides the next step from what it finds</div>
+  <div class="opt">C. A single call with a long system prompt</div>
+  <div class="opt">D. A batch pipeline</div>
+  <div class="ans"><b>B.</b> This is the honest agent signal: the path is data-dependent and cannot be
+  enumerated in advance. A is the mirror-image error of item P1-1 — a fixed workflow cannot adapt to
+  genuinely variable paths, and the branch thicket grows without ever covering the space. Note that the
+  clinical setting still demands human review of output; adaptivity and oversight are separate decisions.</div></div>
+
+  <div class="qcard"><div class="qd">Item P1-3 · Module 1.1</div>
+  <div class="q">A team proposes an autonomous agent for a process where every decision must be reproducible
+  and explainable to an auditor. As the architect, what's your response?</div>
+  <div class="opt">A. Build the agent as requested; add logging to satisfy auditors</div>
+  <div class="opt">B. Flag the conflict: model-driven control flow undermines reproducibility — move decisions into code and use Claude for the language-understanding steps</div>
+  <div class="opt">C. Build the agent with a more capable model for consistency</div>
+  <div class="opt">D. Build the agent and have auditors review a sample</div>
+  <div class="ans"><b>B.</b> The stated requirement and the proposed design are incompatible, and surfacing
+  that is the architect's job. A is the trap: logs record <em>what</em> happened but don't make the process
+  reproducible, and auditors asking "why this decision" won't be satisfied by a transcript. C misreads
+  reproducibility as capability. D samples a process that remains non-reproducible case to case.</div></div>
+
+  <div class="qcard"><div class="qd">Item P1-4 · Module 1.4</div>
+  <div class="q">A returns-processing assistant must respond within a strict p95 latency budget inside a
+  customer-facing flow. The proposed design uses a multi-step agent with retrieval at each step. What's the
+  concern?</div>
+  <div class="opt">A. Cost will be higher than a single call</div>
+  <div class="opt">B. The pattern is incompatible with the latency NFR — each agent iteration and retrieval hop adds serial round trips</div>
+  <div class="opt">C. Retrieval quality may be poor</div>
+  <div class="opt">D. The agent may need more tools than planned</div>
+  <div class="ans"><b>B.</b> A latency NFR is a hard architectural constraint, and multi-step agent loops
+  are serially additive — you cannot tune your way under the budget. A is true but secondary; the design
+  fails the requirement outright regardless of cost. C and D are implementation risks, not the mismatch
+  between the chosen pattern and a stated non-functional requirement.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 1 — Solution Design &amp; Architecture</div>
+</div>
+<!-- ============================ DOMAIN 2 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D2</span><h2>Claude Models, Prompting &amp; Context Engineering</h2><span class="w">13% · 4 modules</span></div>
+  <p class="lead">About 8 of 63 items. Tested as architectural choices — where instructions live, how
+  context is assembled, how a model is chosen — not as prompt-writing craft.</p>
+
+  <!-- 2.1 -->
+  <div class="modhead"><span class="mn">2.1</span><h3>Model Selection as a Multi-Factor Trade-off</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Select a model against several dimensions at once; defend the choice
+  against both "always biggest" and "always cheapest."</div>
+
+  <div class="cbox key"><div class="t">The framing this domain tests</div>
+  Model selection is a <b>genuine multi-factor trade-off</b> — reasoning ability, response speed, context
+  capacity, and cost — matched to a specific workload's complexity, quality bar, latency target, and
+  budget. Any option that optimizes a single factor in isolation is wrong, and that includes the
+  flattering ones ("use the most capable model to be safe").</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:16%">Tier</th><th style="width:16%">Profile</th><th>Architectural fit</th></tr></thead>
+    <tbody>
+      <tr><td><b>Haiku</b></td><td>Fastest, cheapest, lightest reasoning</td><td>High-volume, latency-critical, well-specified: classification, routing, extraction, triage.</td></tr>
+      <tr><td><b>Sonnet</b></td><td>Balanced</td><td>The production default for most knowledge work and coding.</td></tr>
+      <tr><td><b>Opus</b></td><td>Deepest reasoning, highest cost/latency</td><td>Hard, high-stakes reasoning; long-horizon agentic work.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Selection is per-step, not per-system</div>
+  In a pipeline or multi-agent design each step gets its own decision — a triage classifier and a final
+  synthesis step have different requirements. <b>Tiered routing</b> (cheap tier triages, capable tier
+  handles the flagged minority) is the standard answer when volume and difficulty conflict, and it appears
+  regularly as the correct option.</div>
+
+  <!-- 2.2 -->
+  <div class="modhead"><span class="mn">2.2</span><h3>Where Instructions Live</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Place persistent behavior, per-request detail, and hard constraints
+  at the right layer.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Layer</th><th style="width:14%">Nature</th><th>Belongs here</th></tr></thead>
+    <tbody>
+      <tr><td><b>Organizational policy / harness controls</b></td><td><b>Enforced</b></td><td>Absolute constraints. Anything phrased "must never."</td></tr>
+      <tr><td><b>System prompt</b></td><td>Advisory</td><td><b>Persona, standing behavioral guardrails, output conventions, escalation rules</b> — applied on every call regardless of the request.</td></tr>
+      <tr><td><b>Templates / assembled context</b></td><td>Advisory</td><td>Reusable structures, retrieved material, few-shot examples.</td></tr>
+      <tr><td><b>User message</b></td><td>Advisory</td><td>The specific request and its data.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">The distinction the items turn on</div>
+  <b>Persistent, request-independent behavior → the system prompt.</b> Repeating a persona in every user
+  message is inconsistent and unmaintainable. But a system prompt is still <em>advisory</em> — the model
+  weighs it. A requirement that must hold even under prompt injection belongs in an <b>enforced</b> layer:
+  authorization, harness controls, or approval workflow. Both halves of that get tested.</div>
+
+  <!-- 2.3 -->
+  <div class="modhead"><span class="mn">2.3</span><h3>Context Engineering</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Treat context as a managed budget; choose the right mechanism for
+  the symptom.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:20%">Mechanism</th><th style="width:24%">What it does</th><th>Choose when</th></tr></thead>
+    <tbody>
+      <tr><td><b>Context editing</b></td><td><b>Clears</b> stale tool results — prunes, doesn't summarize.</td><td>Agent-loop bulk is old tool output.</td></tr>
+      <tr><td><b>Compaction</b></td><td><b>Summarizes</b> earlier context.</td><td>Long dialogue whose gist must survive.</td></tr>
+      <tr><td><b>Memory / external store</b></td><td>Durable state.</td><td><b>Anything that must persist across sessions</b> — the only mechanism that does.</td></tr>
+      <tr><td><b>Retrieval</b></td><td>Injects relevant slices on demand.</td><td>Corpus larger than any window, or changing independently.</td></tr>
+      <tr><td><b>Caching</b></td><td>Reuses a stable prefix.</td><td>The same long prefix on repeated calls — a cost lever with a design constraint attached.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Diagnose context before capability</div>
+  A system that starts well and <b>degrades over the course of a run</b> — contradicting itself, repeating
+  work, losing the thread — has a context problem, not a model problem. The instinct to upgrade the model
+  is expensive and doesn't fix it. Quality that is poor <em>from the first turn</em> is a different
+  diagnosis.</div>
+
+  <!-- 2.4 -->
+  <div class="modhead"><span class="mn">2.4</span><h3>Prompt Lifecycle</h3><span class="tag">~45 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Manage prompts as versioned artifacts across a system's life.</div>
+
+  <ol class="steps">
+    <li><b>Version prompts with the code that uses them</b> — a prompt change is a behavior change and deserves the same review.</li>
+    <li><b>Test against an eval set before rollout</b> (Domain 4). A prompt improvement validated on one example is not validated.</li>
+    <li><b>Keep prompt, schema, and eval set in sync</b> — changing one usually requires changing all three.</li>
+    <li><b>Centralize shared prompts</b> so behavior is consistent across teams and one fix propagates.</li>
+    <li><b>Watch prefix stability</b> — edits to a cached prefix have a cost consequence, not just a behavioral one.</li>
+  </ol>
+
+  <h3 style="margin-top:20px;">Domain 2 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P2-1 · Module 2.2</div>
+  <div class="q">A fintech team wants a loan-underwriting assistant to follow a consistent persona and
+  standing behavioral guardrails on every call, regardless of the specific user request. Where should this
+  be configured?</div>
+  <div class="opt">A. Repeated at the top of every user message</div>
+  <div class="opt">B. In the system prompt, the dedicated mechanism for persistent cross-call instructions</div>
+  <div class="opt">C. In the tool descriptions</div>
+  <div class="opt">D. In a retrieval corpus the model queries when unsure</div>
+  <div class="ans"><b>B.</b> System prompts exist for exactly this: persistent instructions, templates, and
+  guardrails applying across every call, distinct from per-request content. A works but is fragile,
+  inconsistent, and unmaintainable across a team. C misuses a field meant to describe capabilities.
+  D makes standing behavior conditional on the model choosing to look it up.</div></div>
+
+  <div class="qcard"><div class="qd">Item P2-2 · Module 2.1</div>
+  <div class="q">A B2B SaaS team must choose a model for a report-generation assistant, weighing reasoning
+  ability, speed, context capacity, and cost together. What does this reflect?</div>
+  <div class="opt">A. That the most capable model is always correct for production</div>
+  <div class="opt">B. That model selection is a multi-factor trade-off matched to the workload's complexity, quality bar, latency target, and budget</div>
+  <div class="opt">C. That the cheapest model should be chosen and escalated only on complaints</div>
+  <div class="opt">D. That model choice matters less than prompt quality</div>
+  <div class="ans"><b>B.</b> The dimensions are weighed <em>together</em> against a specific workload.
+  A and C are the two single-factor failure modes the exam consistently rejects — one wastes cost and
+  latency, the other discovers quality problems through customer complaints. D is false: tier selection
+  is typically the largest single cost and latency lever available.</div></div>
+
+  <div class="qcard"><div class="qd">Item P2-3 · Module 2.3</div>
+  <div class="q">A long-running assistant produces good answers early in a session but by later turns
+  contradicts its own earlier decisions. What's the most likely architectural cause?</div>
+  <div class="opt">A. The model tier is too low</div>
+  <div class="opt">B. Context growth is unmanaged — history and tool results crowd the window and earlier decisions lose salience</div>
+  <div class="opt">C. Temperature is too high</div>
+  <div class="opt">D. The system prompt is too short</div>
+  <div class="ans"><b>B.</b> Degradation <em>over the course of a run</em> is the signature of context
+  exhaustion. A is the expensive reflex that leaves the cause untouched — the same degradation reappears a
+  few turns later. The fix is a context strategy: editing, compaction, or externalizing decisions into
+  durable state.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 2 — Models, Prompting &amp; Context</div>
+</div>
+
+<!-- ============================ DOMAIN 3 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D3</span><h2>Integration</h2><span class="w">19% · 6 modules — heaviest domain</span></div>
+  <p class="lead">About 12 of 63 items — the single heaviest domain. Its spine is <b>least privilege</b>:
+  most items ask what an integration should be <em>allowed</em> to do, not how to call it.</p>
+
+  <!-- 3.1 -->
+  <div class="modhead"><span class="mn">3.1</span><h3>Integration Topology</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Choose synchronous, asynchronous, batch, or event-driven integration
+  from the workload's latency and volume profile.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:20%">Mode</th><th style="width:30%">Fits</th><th>Design implications</th></tr></thead>
+    <tbody>
+      <tr><td><b>Synchronous</b></td><td>A user is waiting.</td><td>Latency budget, streaming, timeout and degraded-response design.</td></tr>
+      <tr><td><b>Asynchronous / queued</b></td><td>Work is submitted and collected later.</td><td>Durable queue, status surface, idempotent processing, retry policy.</td></tr>
+      <tr><td><b>Batch</b></td><td><b>Nobody waiting on any single result</b> — overnight enrichment, bulk classification.</td><td>Substantially cheaper per token; results keyed by request id, not order.</td></tr>
+      <tr><td><b>Event-driven</b></td><td>React to changes in a system of record.</td><td>Deduplication, ordering, poison-message handling, backpressure.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 3.2 -->
+  <div class="modhead"><span class="mn">3.2</span><h3>RAG Architecture</h3><span class="tag">~90 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Design a retrieval pipeline and know where each stage fails.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:20%">Stage</th><th style="width:30%">Decision</th><th>Failure it causes when wrong</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ingestion</b></td><td>Sources, refresh cadence, change detection.</td><td>Stale answers that look current — the most damaging RAG failure because nothing signals it.</td></tr>
+      <tr><td><b>Chunking</b></td><td>Size and boundaries.</td><td>Chunks that split a rule from its exception; retrieved fragments that are individually true and jointly misleading.</td></tr>
+      <tr><td><b>Retrieval</b></td><td>Ranking, top-k, filters, permissions.</td><td>Missing the passage that mattered; or returning content the user isn't entitled to see.</td></tr>
+      <tr><td><b>Assembly</b></td><td>Ordering, delimiting, budget.</td><td>Context bloat; untrusted content read as instruction.</td></tr>
+      <tr><td><b>Generation</b></td><td>Grounding instructions, citations, refusal path.</td><td>Ungrounded claims presented with retrieved-looking authority.</td></tr>
+      <tr><td><b>Verification</b></td><td>Citation checks, coverage, "not found" handling.</td><td>Fabrication when the corpus lacks the answer.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">Two RAG rules that carry most of the exam weight</div>
+  <b>1. Retrieval must respect the user's permissions.</b> A retrieval layer that ignores per-user
+  entitlements turns your assistant into a data-exfiltration path — the model will faithfully summarize
+  whatever it was handed. Filter at retrieval time, by the requesting user's identity.<br>
+  <b>2. Retrieved content is untrusted data, never instructions.</b> External or user-supplied content in
+  the context can attempt to steer the model (Domain 5). Delimit it, say so explicitly, and restrict what
+  sensitive actions it can trigger without review.</div>
+
+  <div class="cbox tip"><div class="t">Give the system a way to say "not in the corpus"</div>
+  If the design has no explicit not-found path, a retrieval miss becomes a fabrication — the model must
+  produce <em>something</em>. An explicit refusal-or-escalate branch is a design requirement, not a nicety,
+  and it is the difference between a system that fails visibly and one that fails silently.</div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 3 — Integration</div>
+</div>
+
+<div class="page">
+  <!-- 3.3 -->
+  <div class="modhead"><span class="mn">3.3</span><h3>Tools, MCP &amp; Enterprise Connectivity</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Design the capability surface; choose MCP where standardization pays.</div>
+
+  <div class="cbox key"><div class="t">The MCP argument, stated the way the exam wants it</div>
+  MCP is an open protocol exposing tools and data through standardized servers any compliant client can
+  consume. Without it, every (client × system) pair needs bespoke integration — <b>N×M</b>. With it, each
+  system is exposed once and each client consumes it — <b>N+M</b>. That combinatorial reduction is the
+  architectural justification; accuracy and caching are not.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Capability decision</th><th>Guidance</th></tr></thead>
+    <tbody>
+      <tr><td>Broad tool vs. dedicated tools</td><td>Promote an action to its own tool when it must be <b>gated, audited, rendered, or parallelized</b>. A broad exec tool gives your harness an opaque string it cannot govern.</td></tr>
+      <tr><td>Tool count</td><td>Keep the surface focused; schemas consume context and dilute selection. Use tool search when the library must be large.</td></tr>
+      <tr><td>Tool descriptions</td><td>State <b>when</b> to call, not just what it does — under-triggering is usually a description problem.</td></tr>
+      <tr><td>Credentials</td><td><b>Never in model-readable context.</b> Host-side, or vault-injected after the request leaves the model's reach.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 3.4 -->
+  <div class="modhead"><span class="mn">3.4</span><h3>Identity, Authorization &amp; Least Privilege</h3><span class="tag">~90 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Scope capability to the role and the request — the single most
+  tested idea in the heaviest domain.</div>
+
+  <div class="cbox key"><div class="t">Least privilege, precisely</div>
+  <b>Remove capabilities the role does not require</b> — eliminating attack surface rather than merely
+  watching it. Logging and confirmation prompts are <em>detective</em> and <em>compensating</em> controls;
+  they observe or interrupt misuse, they do not prevent it. When an item offers "log it", "alert on it",
+  or "ask the user to confirm" against "don't grant the capability," the answer is not granting it.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Anti-pattern</th><th style="width:26%">Why it fails</th><th>Correct design</th></tr></thead>
+    <tbody>
+      <tr><td>One shared credential with full account access, used identically for every request</td><td>Violates least privilege and maximizes blast radius on any compromise or bug.</td><td>Scope authorization to what each request and role actually needs.</td></tr>
+      <tr><td>Agent holds every capability the platform offers</td><td>Support staff who only read records and draft replies don't need refund and delete.</td><td>Remove the unneeded tools entirely from that agent's surface.</td></tr>
+      <tr><td>Acting with the service's identity, not the user's</td><td>Bypasses per-user entitlements; every user sees everything the service can.</td><td>Propagate user identity; authorize per request.</td></tr>
+      <tr><td>Confirmation prompt as the only guard on a destructive tool</td><td>Compensating control; fatigue defeats it, and it can be socially engineered.</td><td>Don't grant it — or gate it in the authorization layer.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 3.5 -->
+  <div class="modhead"><span class="mn">3.5</span><h3>Data Flow &amp; Boundaries</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Decide what data crosses which boundary, and prove it.</div>
+
+  <ol class="steps">
+    <li><b>Classify before you design.</b> What classes exist (PII, PHI, financial, confidential), and which may enter a prompt at all?</li>
+    <li><b>Minimize at the boundary.</b> Send the fields the task needs — a returns assistant rarely needs a full customer record to draft a reply.</li>
+    <li><b>Redact or tokenize</b> what must cross but needn't be legible.</li>
+    <li><b>Know retention and residency</b> for each hop, including your own logs — which are frequently the overlooked copy.</li>
+    <li><b>Keep an audit trail</b> sufficient to reconstruct what was sent, retrieved, and returned.</li>
+  </ol>
+
+  <!-- 3.6 -->
+  <div class="modhead"><span class="mn">3.6</span><h3>Integration Resilience</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Design for the failure of every dependency.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Condition</th><th>Designed response</th></tr></thead>
+    <tbody>
+      <tr><td>Rate limited</td><td>Exponential backoff with jitter; queue if latency-tolerant, shed with a clear message if not.</td></tr>
+      <tr><td>Provider degraded</td><td>Retry, then fall back — smaller tier, cached answer, or an explicit unavailable state.</td></tr>
+      <tr><td>Downstream tool down</td><td>Degrade to the capability that still works and <b>say which part is unavailable</b>.</td></tr>
+      <tr><td>Retry after an unclear outcome</td><td><b>Idempotency.</b> A retried refund must not issue twice.</td></tr>
+      <tr><td>Malformed model output</td><td>Validate, then reject / retry / escalate — never silently drop (Domain 4).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="scen"><div class="t">Design drill 3 — Authorization review</div>
+  Take the account-support assistant: it can read records, draft replies, issue refunds, and delete
+  accounts. The support staff using it only ever read records and draft replies.
+  <ul>
+    <li>Redesign the capability surface. What is removed, what is gated, what remains?</li>
+    <li>Whose identity does each call act under, and where is that enforced?</li>
+    <li>A refund tool is genuinely needed by a <em>different</em> role — how do you serve both without one over-privileged agent?</li>
+    <li>Write the five-line ADR, and make "Revisit when" concrete.</li>
+  </ul></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 3 — Integration</div>
+</div>
+
+<div class="page">
+  <h3>Domain 3 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P3-1 · Module 3.4</div>
+  <div class="q">An account-support agent can read records, draft replies, issue refunds, and delete accounts,
+  but the support staff using it only ever need to read records and draft replies. Applying least privilege,
+  what should change?</div>
+  <div class="opt">A. Keep all capabilities but log every refund and deletion</div>
+  <div class="opt">B. Keep all capabilities but require a confirmation prompt for refunds and deletions</div>
+  <div class="opt">C. Remove the refund and delete capabilities from this agent's surface entirely</div>
+  <div class="opt">D. Keep all capabilities but alert a manager when they're used</div>
+  <div class="ans"><b>C.</b> Least privilege means <em>removing</em> capabilities the role doesn't require —
+  eliminating the attack surface rather than observing it. A and D are detective controls that tell you
+  afterwards; B is a compensating control defeated by fatigue or a convincing prompt. All three leave a
+  capability present that nobody in this role needs, which is the definition of unnecessary privilege.</div></div>
+
+  <div class="qcard"><div class="qd">Item P3-2 · Module 3.4</div>
+  <div class="q">A team configured a customer-support agent with a single shared API credential granting full
+  account access, used identically for every request regardless of need. What's the primary architectural
+  problem?</div>
+  <div class="opt">A. Credential rotation becomes harder</div>
+  <div class="opt">B. It violates least privilege and expands the blast radius of any compromise or bug</div>
+  <div class="opt">C. It makes per-user analytics harder</div>
+  <div class="opt">D. Shared credentials are slower</div>
+  <div class="opt">E. It complicates local development</div>
+  <div class="ans"><b>B.</b> A single broad credential used for everything means any compromise — or any
+  bug, or any successful prompt injection — reaches the full scope of that credential. Authorization should
+  be scoped to what each request actually needs. A and C are genuine secondary costs; D and E are minor
+  operational annoyances. Only B names the security property being violated.</div></div>
+
+  <div class="qcard"><div class="qd">Item P3-3 · Module 3.2</div>
+  <div class="q">A RAG assistant serves employees with differing entitlements. It retrieves from a shared
+  index using a service identity. What must change before production?</div>
+  <div class="opt">A. Increase top-k so relevant results aren't missed</div>
+  <div class="opt">B. Filter retrieval by the requesting user's entitlements so the model is never handed content that user may not see</div>
+  <div class="opt">C. Instruct the model not to reveal restricted content</div>
+  <div class="opt">D. Add citations so users can verify sources</div>
+  <div class="ans"><b>B.</b> Authorization belongs at retrieval, enforced by identity — once restricted
+  content is in the context, the model will faithfully use it, and you have built an exfiltration path.
+  C attempts to solve an access-control problem with an advisory instruction the model merely weighs.
+  D is good practice that would, here, helpfully cite documents the user was never entitled to see. A
+  makes the exposure larger.</div></div>
+
+  <div class="qcard"><div class="qd">Item P3-4 · Module 3.6</div>
+  <div class="q">A returns assistant issues refunds through a downstream payments API. A network timeout
+  leaves the outcome unknown. What must the integration guarantee?</div>
+  <div class="opt">A. That it never retries after a timeout</div>
+  <div class="opt">B. That refund operations are idempotent, so a retry cannot issue a second refund</div>
+  <div class="opt">C. That timeouts are logged for reconciliation</div>
+  <div class="opt">D. That the model re-checks whether the refund succeeded</div>
+  <div class="ans"><b>B.</b> The failure mode is a successful server-side operation whose response was
+  lost — retrying is correct, duplicating a refund is not, and idempotency keys resolve exactly this.
+  A abandons resilience to avoid the problem. C detects it after money moved. D asks the model to
+  adjudicate a financial transaction, which is neither reliable nor the model's responsibility.</div></div>
+
+  <div class="qcard"><div class="qd">Item P3-5 · Module 3.1</div>
+  <div class="q">A B2B SaaS platform must enrich 2 million stored records with model-generated summaries.
+  Nothing is user-facing and the work must finish within 24 hours. Best integration mode?</div>
+  <div class="opt">A. Synchronous calls from the web tier</div>
+  <div class="opt">B. Batch processing, with results collected by request identifier</div>
+  <div class="opt">C. Event-driven processing triggered per record write</div>
+  <div class="opt">D. A long-running agent iterating over the dataset</div>
+  <div class="ans"><b>B.</b> High volume with no one waiting is the batch profile, at substantially lower
+  cost per token. A puts a bulk job on the latency-critical serving path. C suits ongoing change capture,
+  not a one-time backfill of existing records. D applies an agent loop to a uniform, well-specified
+  transformation — maximum cost and nondeterminism for no benefit.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 3 — Integration</div>
+</div>
+<!-- ============================ DOMAIN 4 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D4</span><h2>Evaluation, Testing &amp; Optimization</h2><span class="w">16% · 4 modules</span></div>
+  <p class="lead">About 10 of 63 items. The recurring theme: evaluation is a <em>strategy</em> spanning
+  several dimensions and a lifecycle — not a single metric checked once before launch.</p>
+
+  <!-- 4.1 -->
+  <div class="modhead"><span class="mn">4.1</span><h3>Evaluation Strategy &amp; Metrics</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Define a metric set proportionate to the stakes; reject single-metric
+  evaluation.</div>
+
+  <div class="cbox key"><div class="t">What "complete" means here</div>
+  A complete evaluation strategy defines metrics across <b>accuracy, latency, cost, safety, and security</b>,
+  as appropriate to the feature's stakes — not one metric in isolation. Any option offering a single
+  number (however good that number is) as the evaluation strategy is wrong.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:18%">Dimension</th><th style="width:34%">Representative measures</th><th>Missing it means</th></tr></thead>
+    <tbody>
+      <tr><td><b>Accuracy</b></td><td>Task success rate, groundedness, citation validity, error rate by type.</td><td>You ship something confident and wrong.</td></tr>
+      <tr><td><b>Latency</b></td><td>p50 / p95 end-to-end; time to first token for streamed UX.</td><td>Passes offline, unusable in the flow. Agent latency is long-tailed — the mean hides it.</td></tr>
+      <tr><td><b>Cost</b></td><td>Cost per request and per resolved task; token split by cache read/write.</td><td>Quality at an indefensible unit economic.</td></tr>
+      <tr><td><b>Safety</b></td><td>Harmful-output rate, refusal appropriateness, injection resistance.</td><td>Reputational and regulatory exposure.</td></tr>
+      <tr><td><b>Security</b></td><td>Privilege escalation attempts, data-leak checks, entitlement bypass.</td><td>An assistant that becomes an exfiltration path.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Measure per resolved task, not per call</div>
+  A cheaper model that needs three attempts is not cheaper. A faster model that escalates half its cases to
+  humans is not faster. <b>Evaluate at the unit the business cares about</b> — a resolved ticket, an
+  approved document, a completed underwriting decision — which is also the unit stakeholders in Domain 6
+  will ask about.</div>
+
+  <!-- 4.2 -->
+  <div class="modhead"><span class="mn">4.2</span><h3>Evaluation Datasets &amp; Methodology</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Build a dataset that catches real failures; combine automated and
+  human grading appropriately.</div>
+
+  <div class="cbox key"><div class="t">The dataset rule</div>
+  A representative evaluation dataset includes <b>edge cases and ambiguous scenarios</b> — not just easy,
+  typical cases — and is assessed with a <b>mix of automated and human methodologies</b>. A dataset of
+  happy-path examples produces a passing score and no information: it cannot fail, so it cannot warn you.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Must include</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Typical cases</td><td>Baseline competence and regression detection.</td></tr>
+      <tr><td><b>Edge cases</b></td><td>Rare inputs where systems actually break in production.</td></tr>
+      <tr><td><b>Ambiguous cases</b></td><td>Reveals whether the system asks, escalates, or guesses — often the highest-value signal in the whole set.</td></tr>
+      <tr><td>Adversarial cases</td><td>Injection attempts, entitlement probes, out-of-scope requests.</td></tr>
+      <tr><td>Known past failures</td><td>Every production incident becomes a permanent regression test.</td></tr>
+      <tr><td>Negative cases</td><td>Inputs where the correct answer is "not in the corpus" or a refusal.</td></tr>
+    </tbody>
+  </table>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Grading method</th><th style="width:28%">Best for</th><th>Caution</th></tr></thead>
+    <tbody>
+      <tr><td>Exact / structural match</td><td>Classification, extraction, schema conformance.</td><td>Cheapest and most reliable — use wherever the task allows.</td></tr>
+      <tr><td>Programmatic checks</td><td>Compiles, tests pass, citations resolve, totals reconcile.</td><td>Objective and underused.</td></tr>
+      <tr><td>LLM-as-judge</td><td>Open-ended quality with no single right answer.</td><td>Needs an explicit rubric, a separate context, and periodic calibration against human ratings.</td></tr>
+      <tr><td>Human review</td><td>Ground truth for consequential output.</td><td>Expensive — spend it calibrating the cheaper methods.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 4.3 -->
+  <div class="modhead"><span class="mn">4.3</span><h3>Testing Across the Lifecycle</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Place evaluation gates from development through production.</div>
+
+  <ol class="steps">
+    <li><b>Development</b> — run the eval set on every prompt, schema, tool, or model change. Non-determinism means a single passing run proves nothing.</li>
+    <li><b>Pre-release</b> — regression against known failures; adversarial pass; cost and latency profiling at expected volume.</li>
+    <li><b>Release</b> — canary or staged rollout with automatic rollback criteria defined <em>before</em> you ship.</li>
+    <li><b>Production</b> — continuous sampling and human spot-checks; alarms on the metrics from 4.1.</li>
+    <li><b>Post-incident</b> — every incident becomes a permanent eval case.</li>
+  </ol>
+
+  <div class="cbox warn"><div class="t">Model and platform changes are change events</div>
+  Behavior can shift when you move models, adjust effort, or change a prompt. <b>Re-run the eval set</b> —
+  a version change is not a no-op, and "we only changed the model" is how silent regressions ship. This
+  also means your eval set is infrastructure: version it, own it, and keep it current with the product.</div>
+
+  <!-- 4.4 -->
+  <div class="modhead"><span class="mn">4.4</span><h3>Optimization</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Improve cost, latency, or quality without trading away the others
+  unknowingly.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:22%">Goal</th><th style="width:34%">Levers, roughly in order</th><th>Watch</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cost</b></td><td>Right-size the tier per step · batch latency-tolerant work · cache the stable prefix · control context growth · tune effort.</td><td>Re-run evals — every one of these can move quality.</td></tr>
+      <tr><td><b>Latency</b></td><td>Smaller tier · stream · parallelize independent work · shorten retrieval hops · trim context.</td><td>Streaming improves <em>perceived</em> latency, not total time.</td></tr>
+      <tr><td><b>Quality</b></td><td>Better context and grounding · schema enforcement · few-shot examples · escalate tier · add verification.</td><td>Measure aggregate movement, not one improved example.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="scen"><div class="t">Design drill 4 — An evaluation strategy for a high-stakes feature</div>
+  For the fintech loan-underwriting assistant, specify: the metric set across all five dimensions with a
+  target for each · the dataset composition (how many typical, edge, ambiguous, adversarial, negative) ·
+  the grading method per metric · the gates at each lifecycle stage · the rollback criteria · and the two
+  alarms you'd wire first. <b>Then:</b> state what your evaluation would <em>not</em> catch. Every strategy
+  has a blind spot, and knowing yours is the professional-level answer.</div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 4 — Evaluation, Testing &amp; Optimization</div>
+</div>
+
+<div class="page">
+  <h3>Domain 4 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P4-1 · Module 4.1</div>
+  <div class="q">A B2B SaaS team is defining evaluation metrics for a report-generation assistant — a
+  high-stakes feature reviewed by the VP of Engineering. Which set best reflects a complete strategy?</div>
+  <div class="opt">A. Accuracy alone, since correctness is what matters</div>
+  <div class="opt">B. Accuracy, latency, cost, safety, and security, scaled to the feature's stakes</div>
+  <div class="opt">C. User satisfaction survey scores</div>
+  <div class="opt">D. Token consumption and request volume</div>
+  <div class="ans"><b>B.</b> A complete strategy spans the dimensions that determine whether the feature can
+  actually run in production. A is the most tempting wrong answer — correctness matters most, but a
+  perfectly accurate feature that is too slow, too expensive, or leaks data still cannot ship. C is lagging
+  and subjective; D measures activity, not value.</div></div>
+
+  <div class="qcard"><div class="qd">Item P4-2 · Module 4.2</div>
+  <div class="q">A fintech team is building an evaluation dataset for a loan-underwriting assistant and wants
+  it to catch real failure modes before launch. What should it include?</div>
+  <div class="opt">A. A large sample of typical, representative applications</div>
+  <div class="opt">B. Edge cases and ambiguous scenarios alongside typical ones, assessed with a mix of automated and human methods</div>
+  <div class="opt">C. Synthetic applications generated by the model itself</div>
+  <div class="opt">D. The most recent 100 applications</div>
+  <div class="ans"><b>B.</b> Systems fail at the edges and on ambiguity, so a dataset without them cannot
+  surface the failures you're trying to prevent — and a set that always passes gives no information.
+  A alone measures the easy path. C risks inheriting the model's own blind spots as your ground truth.
+  D is a convenience sample with no guarantee of covering hard cases.</div></div>
+
+  <div class="qcard"><div class="qd">Item P4-3 · Module 4.3</div>
+  <div class="q">A team plans to switch the underlying model to reduce cost. Their feature has a mature eval
+  set. What should the rollout include?</div>
+  <div class="opt">A. Switch directly — the eval set was validated on the previous model</div>
+  <div class="opt">B. Re-run the full eval set on the new model, compare across all metric dimensions, and stage the rollout with defined rollback criteria</div>
+  <div class="opt">C. Switch and monitor customer complaints</div>
+  <div class="opt">D. Switch only for new customers</div>
+  <div class="ans"><b>B.</b> A model change is a behavior change: quality, latency, and cost can all move,
+  sometimes in opposite directions. A treats a prior validation as transferable, which is exactly backwards.
+  C discovers regressions through customers — the most expensive detector available. D limits blast radius
+  but still ships an unevaluated change, and now you're running two behaviors with no comparison data.</div></div>
+
+  <div class="qcard"><div class="qd">Item P4-4 · Module 4.1</div>
+  <div class="q">A cheaper model reduces per-call cost by 40%, but resolution now takes an average of 2.3
+  attempts instead of 1.1. How should the architect evaluate this?</div>
+  <div class="opt">A. Adopt it — per-call cost is the relevant measure</div>
+  <div class="opt">B. Measure cost per <em>resolved task</em>, including retries and any escalation, before deciding</div>
+  <div class="opt">C. Reject it — cheaper models are false economy</div>
+  <div class="opt">D. Adopt it and add capacity to absorb the retries</div>
+  <div class="ans"><b>B.</b> Per-call cost is the wrong unit when attempts change: 2.1× the attempts at 0.6×
+  the price is a net increase, before counting added latency and any human escalation. A optimizes the
+  measurable rather than the meaningful. C is a rule of thumb, not an analysis — cheaper tiers often win
+  on the right workload. D accepts the economics without ever computing them.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 4 — Evaluation, Testing &amp; Optimization</div>
+</div>
+
+<!-- ============================ DOMAIN 5 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D5</span><h2>Governance, Safety &amp; Risk Management</h2><span class="w">14% · 4 modules</span></div>
+  <p class="lead">About 9 of 63 items. Assessed as design responsibility: what you document, what you
+  prevent, and who is accountable.</p>
+
+  <!-- 5.1 -->
+  <div class="modhead"><span class="mn">5.1</span><h3>Documented Limitations &amp; Risk Identification</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Name the genuine, well-documented limitations of LLM systems and
+  design around them rather than assuming configuration removes them.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Limitation</th><th style="width:30%">What it actually means</th><th>Design response</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hallucination</b></td><td>Fluent, confident output not grounded in any source. <b>Not eliminated by configuration.</b></td><td>Grounding and retrieval · citation checks · verification before action · human review where consequential.</td></tr>
+      <tr><td><b>Training cutoff</b></td><td>No knowledge of events after training.</td><td>Retrieval or tools for anything current.</td></tr>
+      <tr><td><b>No inherent system access</b></td><td>Knows nothing about your data unless supplied.</td><td>Explicit integration; never assume awareness.</td></tr>
+      <tr><td><b>Non-determinism</b></td><td>Same input can yield different output.</td><td>Eval sets over aggregates · determinism in code where reproducibility is required.</td></tr>
+      <tr><td><b>Prompt injection susceptibility</b></td><td>Content in context can attempt to steer behavior.</td><td>Treat retrieved/user content as data · least privilege · gate sensitive actions.</td></tr>
+      <tr><td><b>Context limits</b></td><td>Finite window; quality degrades as it fills.</td><td>Context strategy (Domain 2.3).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">The framing the exam rewards</div>
+  These are <b>documented properties to design around</b>, not defects to be configured away. An option
+  claiming a limitation is "solved" by a setting, a bigger model, or a stern instruction is wrong.
+  Production designs <em>acknowledge</em> the limitation and add a compensating control.</div>
+
+  <!-- 5.2 -->
+  <div class="modhead"><span class="mn">5.2</span><h3>Safety Guardrails &amp; Prompt Injection</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Design layered guardrails, especially where untrusted content enters
+  via RAG.</div>
+
+  <div class="cbox key"><div class="t">The RAG injection answer, stated precisely</div>
+  Prompt injection from untrusted retrieved content is mitigated by <b>treating that content strictly as
+  data, never as instructions</b>, and by <b>restricting what sensitive actions it can trigger without
+  review</b>. It is <em>not</em> mitigated by trusting the source, by a larger model, or by phrase
+  detection alone.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Layer</th><th style="width:16%">Type</th><th>Contribution</th></tr></thead>
+    <tbody>
+      <tr><td>Delimit untrusted content; instruct it is data</td><td>Preventive</td><td>Necessary, not sufficient — it is still text competing with text.</td></tr>
+      <tr><td><b>Least privilege on tools</b></td><td>Preventive</td><td>Strongest single control: a successful injection has nothing to hijack.</td></tr>
+      <tr><td><b>Approval on sensitive actions</b></td><td>Preventive</td><td>Injection cannot complete an irreversible act alone.</td></tr>
+      <tr><td>Credentials outside model context</td><td>Preventive</td><td>Nothing to exfiltrate even under a successful injection.</td></tr>
+      <tr><td>Output filtering / egress checks</td><td>Detective</td><td>Catches some exfiltration attempts in flight.</td></tr>
+      <tr><td>Monitoring and audit</td><td>Detective</td><td>Tells you afterwards — necessary, never primary.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 5.3 -->
+  <div class="modhead"><span class="mn">5.3</span><h3>Privacy, Compliance &amp; Data Governance</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Apply classification, minimization, and regime requirements to a design.</div>
+
+  <ol class="steps">
+    <li><b>Classify</b> the data classes in play — PII, PHI, financial, confidential, special category.</li>
+    <li><b>Minimize</b> what enters a prompt; send fields the task requires, redact or tokenize the rest.</li>
+    <li><b>Map the regime</b> — GDPR, HIPAA, sector rules, and your <b>internal policy</b>, which is often stricter than law and most often overlooked.</li>
+    <li><b>Control retention</b> across every hop, including logs and eval datasets built from production traffic.</li>
+    <li><b>Preserve rights</b> — access, correction, deletion — including data captured in memory stores or eval sets.</li>
+    <li><b>Escalate</b> to privacy, security, or legal when policy is silent. <b>Silence is not permission.</b></li>
+  </ol>
+
+  <!-- 5.4 -->
+  <div class="modhead"><span class="mn">5.4</span><h3>Human Oversight &amp; Accountability</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Decide where humans must remain in the loop; make oversight real.</div>
+
+  <div class="cbox key"><div class="t">Meaningful oversight requires four things</div>
+  A named human who is <b>competent</b> to evaluate the output, has the <b>information and time</b> to do
+  it, holds <b>genuine authority to reject</b>, and is <b>accountable</b> for the result. Missing any one
+  makes the control a formality. A near-100% approval rate at high volume is the diagnostic signature of a
+  gate that has stopped functioning.</div>
+
+  <div class="cbox warn"><div class="t">Where a human must decide</div>
+  Consequential decisions about people (credit, employment, benefits, clinical care), regulated
+  professional advice, irreversible financial action, and anything a regulator will ask you to justify.
+  Claude drafts, summarizes, and surfaces options; a qualified human decides and owns the outcome. "The
+  system decided" is not an answer to a regulator — and "the model was confident" is not an oversight
+  mechanism.</div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 5 — Governance, Safety &amp; Risk</div>
+</div>
+
+<div class="page">
+  <h3>Domain 5 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P5-1 · Module 5.2</div>
+  <div class="q">A healthcare team builds a RAG feature for a clinical documentation assistant that ingests
+  content from external, untrusted sources. Which guardrail most directly addresses prompt injection from
+  that content?</div>
+  <div class="opt">A. Trust content only from sources on an approved vendor list</div>
+  <div class="opt">B. Treat retrieved content strictly as data, never as instructions, and restrict which sensitive actions it can trigger without review</div>
+  <div class="opt">C. Use a more capable model less susceptible to manipulation</div>
+  <div class="opt">D. Scan retrieved documents for known injection phrases</div>
+  <div class="ans"><b>B.</b> This pairs the preventive control (content is data, not instruction) with the
+  containment control (limit what it can trigger unreviewed), addressing the class rather than one
+  phrasing. A misplaces trust — an approved vendor's document can still be compromised or contain
+  user-generated text. C treats a systems problem as a capability problem. D is an unbounded blocklist
+  against an attacker who can rephrase, translate, or encode.</div></div>
+
+  <div class="qcard"><div class="qd">Item P5-2 · Module 5.1</div>
+  <div class="q">An e-commerce team documents known risks for a returns-processing assistant before
+  deployment. Which is a genuine, well-documented limitation the design must account for?</div>
+  <div class="opt">A. Hallucination — fluent output not grounded in any source, addressed through verification, grounding, or review</div>
+  <div class="opt">B. Claude cannot process structured data</div>
+  <div class="opt">C. Claude cannot follow multi-step instructions</div>
+  <div class="opt">D. Hallucination, which is eliminated by correct configuration</div>
+  <div class="ans"><b>A.</b> Hallucination is a real, documented property requiring compensating controls in
+  the design. <b>D is the trap</b> — it names the right limitation and then makes a false claim about it;
+  no configuration, model choice, or instruction eliminates it, which is precisely why the design must
+  account for it. B and C are simply untrue.</div></div>
+
+  <div class="qcard"><div class="qd">Item P5-3 · Module 5.4</div>
+  <div class="q">A lending platform proposes that the assistant issue final approve/decline decisions
+  automatically for applications it scores as unambiguous. What's the governance assessment?</div>
+  <div class="opt">A. Acceptable — unambiguous cases carry little risk</div>
+  <div class="opt">B. Acceptable if the threshold is tuned conservatively</div>
+  <div class="opt">C. Inappropriate — credit decisions materially affect people, are regulated, and require an accountable human decision-maker</div>
+  <div class="opt">D. Acceptable if applicants are told AI was involved</div>
+  <div class="ans"><b>C.</b> Credit is a regulated, consequential decision about a person, carrying
+  fair-lending and adverse-action obligations — it needs an accountable human, not a confidence threshold.
+  A and B both rest on the model's own assessment of ambiguity, which fails exactly where it matters.
+  D is a genuine transparency obligation that does not change who is accountable for the decision.</div></div>
+
+  <div class="qcard"><div class="qd">Item P5-4 · Module 5.3</div>
+  <div class="q">A team wants to build an evaluation dataset from production transcripts containing customer
+  PII. What should the architect require?</div>
+  <div class="opt">A. Nothing — it's internal use of data you already hold</div>
+  <div class="opt">B. Classification, minimization or redaction, a retention policy, and confirmation that this use is permitted for that data class</div>
+  <div class="opt">C. Approval from the engineering manager</div>
+  <div class="opt">D. Only that the dataset be stored encrypted</div>
+  <div class="ans"><b>B.</b> An eval set built from production traffic is a new copy of personal data with
+  its own purpose, retention, and rights obligations — it is exactly the kind of secondary use that
+  bypasses review because it feels like engineering hygiene. A assumes collection permits any downstream
+  use. C is the wrong approver for a privacy decision. D is one control among several and doesn't address
+  lawful basis or retention.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 5 — Governance, Safety &amp; Risk</div>
+</div>
+<!-- ============================ DOMAIN 6 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D6</span><h2>Stakeholder Communication &amp; Lifecycle Management</h2><span class="w">14% · 4 modules</span></div>
+  <p class="lead">About 9 of 63 items. The domain engineers most often underestimate — and the one that
+  most clearly separates a professional architect from a senior developer.</p>
+
+  <!-- 6.1 -->
+  <div class="modhead"><span class="mn">6.1</span><h3>Structured Discovery</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Run discovery before design; surface constraints, outcomes, and risks
+  while they're still cheap to address.</div>
+
+  <div class="cbox key"><div class="t">Why discovery comes first</div>
+  Structured discovery conducted <b>before</b> design exists to surface hard operational constraints,
+  expected outcomes, and risks. Skipping it — or doing it after a design exists — is precisely how a
+  binding constraint is discovered late, when rework is expensive and commitments have been made. On this
+  exam, "we started designing and later found out…" is always a discovery failure, and the fix is never
+  "add it now and move on."</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:26%">Discovery area</th><th>Questions that change the architecture</th></tr></thead>
+    <tbody>
+      <tr><td><b>Outcome</b></td><td>What does success look like in business terms? How will you know in 90 days?</td></tr>
+      <tr><td><b>Operational constraints</b></td><td>Peak volume? Latency? Hours of operation? Existing SLAs this must not break?</td></tr>
+      <tr><td><b>Data</b></td><td>Which systems, which classes, which entitlements, which residency rules?</td></tr>
+      <tr><td><b>Process</b></td><td>Who does this today? What happens to their work? Who approves exceptions now?</td></tr>
+      <tr><td><b>Risk</b></td><td>What's the cost of a wrong answer, and who bears it?</td></tr>
+      <tr><td><b>Compliance</b></td><td>Which regimes? Who signs off? What must be auditable?</td></tr>
+      <tr><td><b>Adoption</b></td><td>Who has to change behavior, and what would make them refuse?</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 6.2 -->
+  <div class="modhead"><span class="mn">6.2</span><h3>Communicating Trade-offs</h3><span class="tag">~75 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Translate a technical trade-off into the terms the audience owns.</div>
+
+  <div class="cbox key"><div class="t">The communication rule</div>
+  Effective architecture communication <b>translates technical trade-offs into terms the audience cares
+  about</b> — user experience, budget, SLA impact, risk exposure — rather than leaning on jargon, and
+  rather than skipping the explanation because the audience is non-technical. Both failure modes appear as
+  distractors: over-technical, and over-simplified to the point of hiding the decision.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:22%">Audience</th><th style="width:26%">Cares about</th><th>Lead with</th></tr></thead>
+    <tbody>
+      <tr><td>VP Engineering</td><td>Delivery risk, SLA, maintainability</td><td>The trade-off in latency/cost/quality terms, the recommendation, and what you'd revisit.</td></tr>
+      <tr><td>Finance</td><td>Unit economics</td><td>Cost per resolved task, projected volume, assumptions labelled as assumptions.</td></tr>
+      <tr><td>Legal / compliance</td><td>Obligation and evidence</td><td>Data classes, regime mapping, controls, audit trail, named accountable owner.</td></tr>
+      <tr><td>Security</td><td>Exposure</td><td>Data flows, privilege model, injection posture, blast radius.</td></tr>
+      <tr><td>Operations</td><td>Day-two reality</td><td>Runbook, degraded modes, alarms, escalation path.</td></tr>
+      <tr><td>End users</td><td>Their work tomorrow</td><td>Concrete before/after, what they still own, honest limitations.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">Overselling is the tested failure</div>
+  Claiming a system "eliminates errors," "removes the need for review," or "requires no oversight" is both
+  false and consistently the wrong option. The professional framing: <b>Claude accelerates work that a
+  competent human still reviews and remains accountable for</b> — and stating the limitations before
+  someone discovers them is what preserves your credibility for the next decision.</div>
+
+  <!-- 6.3 -->
+  <div class="modhead"><span class="mn">6.3</span><h3>Delivery Lifecycle</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Move a system from pilot to production to scale with the right gate
+  at each stage.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:18%">Stage</th><th style="width:30%">Purpose</th><th>Exit criteria</th></tr></thead>
+    <tbody>
+      <tr><td><b>Discovery</b></td><td>Understand the problem and constraints.</td><td>Documented outcome, constraints, risks, and success measures.</td></tr>
+      <tr><td><b>Prototype</b></td><td>Test viability cheaply.</td><td>Evidence the model can do the task at all.</td></tr>
+      <tr><td><b>Pilot</b></td><td>Real users, bounded scope.</td><td>Eval set passing, cost and latency measured at real volume, human review in place.</td></tr>
+      <tr><td><b>Production</b></td><td>Full rollout with controls.</td><td>Governance sign-off, runbook, alarms, rollback path, named owner.</td></tr>
+      <tr><td><b>Scale &amp; operate</b></td><td>Grow and maintain.</td><td>Continuous evaluation, cost tracking, periodic control review.</td></tr>
+      <tr><td><b>Retire / replace</b></td><td>Decommission cleanly.</td><td>Data disposition, downstream migration, documented rationale.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">The pilot's real job</div>
+  A pilot exists to discover <b>whether the value is real and what production will actually cost</b> —
+  not to prove the demo works. A pilot with no measurement plan is a demo with users attached, and it
+  produces enthusiasm rather than evidence. Define, before it starts, what result would cause you to stop.</div>
+
+  <!-- 6.4 -->
+  <div class="modhead"><span class="mn">6.4</span><h3>Operations &amp; Continuous Improvement</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Own the system after launch.</div>
+
+  <ol class="steps">
+    <li><b>Monitor the Domain 4 metrics continuously</b> — accuracy sampling, latency, cost per resolved task, safety and security signals.</li>
+    <li><b>Alarm on leading indicators</b> — rising rejection rate, rising iteration counts, falling cache hit rate, shifting stop-reason mix.</li>
+    <li><b>Feed incidents back</b> into the eval set permanently.</li>
+    <li><b>Review controls on a schedule</b> — permissions and allowlists only ever grow unless someone prunes them.</li>
+    <li><b>Re-validate on platform change</b> — new model, new prompt, new tool means re-run the evals.</li>
+    <li><b>Report to stakeholders in their terms</b> — outcome and unit economics, not token counts.</li>
+  </ol>
+
+  <div class="scen"><div class="t">Design drill 6 — The stakeholder briefing</div>
+  You must recommend a latency-versus-cost trade-off for the report-generation assistant to a
+  <b>non-technical VP of Engineering</b>. Write one page: the decision, the two options in user-experience
+  and budget terms, the recommendation, the risk you accepted, and the signal that would make you revisit.
+  <b>Constraint: no jargon.</b> No token counts, no model names, no "p95" without explanation. Then read it
+  aloud and cut anything the VP wouldn't act on.</div>
+
+  <h3 style="margin-top:20px;">Domain 6 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P6-1 · Module 6.1</div>
+  <div class="q">An e-commerce team began designing a returns-processing assistant without structured
+  discovery with the VP of Customer Experience, and later found the design missed a hard operational
+  constraint. What does this illustrate?</div>
+  <div class="opt">A. That the VP should have volunteered the constraint earlier</div>
+  <div class="opt">B. That structured discovery before design exists precisely to surface constraints, outcomes, and risks — skipping it is how hard constraints get missed until rework is expensive</div>
+  <div class="opt">C. That the design should have been more flexible</div>
+  <div class="opt">D. That the constraint should be treated as a change request</div>
+  <div class="ans"><b>B.</b> This is a process failure with a known remedy, and naming it as such is the
+  architect's responsibility. A shifts accountability to a stakeholder who was never asked. C treats a
+  discovery gap as an architecture gap — no amount of flexibility substitutes for knowing the constraint.
+  D reframes a missed requirement as scope creep, which protects the schedule and damages the outcome.</div></div>
+
+  <div class="qcard"><div class="qd">Item P6-2 · Module 6.2</div>
+  <div class="q">A team must explain a latency-versus-cost trade-off for a report-generation assistant to a
+  non-technical VP of Engineering. Most effective approach?</div>
+  <div class="opt">A. Present token-level cost analysis and p95 latency distributions</div>
+  <div class="opt">B. Translate the trade-off into user experience, budget, and SLA impact, with a clear recommendation</div>
+  <div class="opt">C. Ask the VP to choose between the technical options without a recommendation</div>
+  <div class="opt">D. Choose internally and report the decision as settled</div>
+  <div class="ans"><b>B.</b> Effective architecture communication meets the audience in the terms they own
+  and still makes a recommendation. A is accurate and unusable for this audience. C abdicates the
+  architect's judgment — presenting options without a recommendation is not neutrality, it's transferring
+  a technical decision to someone unequipped to make it. D removes the stakeholder from a decision that
+  affects their budget and SLA.</div></div>
+
+  <div class="qcard"><div class="qd">Item P6-3 · Module 6.3</div>
+  <div class="q">A successful three-week pilot is ready to go to production. Which gap should block the
+  promotion?</div>
+  <div class="opt">A. The pilot didn't test every possible input</div>
+  <div class="opt">B. No runbook, no alarms, no rollback path, and no named owner for the production system</div>
+  <div class="opt">C. The pilot used a different model than planned for production</div>
+  <div class="opt">D. Users requested additional features</div>
+  <div class="ans"><b>B.</b> These are the operational prerequisites for running a system, and their absence
+  is what turns a good pilot into an unsupportable production service. C is a genuine issue — it would
+  require re-running evaluation (Domain 4) — but is a re-validation step rather than a launch blocker in
+  itself. A is never achievable. D is backlog, not a gate.</div></div>
+
+  <div class="qcard"><div class="qd">Item P6-4 · Module 6.2</div>
+  <div class="q">Preparing an executive proposal for a Claude-based assistant. Which framing is most
+  appropriate?</div>
+  <div class="opt">A. Emphasize headcount reduction from automating the work</div>
+  <div class="opt">B. Present expected outcomes, the review process that maintains quality, and the limitations requiring human oversight</div>
+  <div class="opt">C. Emphasize that competitors are adopting AI and the risk of falling behind</div>
+  <div class="opt">D. Present it as low-risk because outputs are always reviewed</div>
+  <div class="ans"><b>B.</b> Balanced, honest, and it names the control that makes the benefit real.
+  A overpromises a specific organizational outcome. C is pressure rather than a case. <b>D is the subtle
+  one</b> — "always reviewed" is usually an aspiration rather than a measured fact, and calling a system
+  low-risk on the strength of a control you haven't yet proven operates is how governance failures begin.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 6 — Stakeholder Communication &amp; Lifecycle</div>
+</div>
+
+<!-- ============================ DOMAIN 7 ============================ -->
+<div class="page">
+  <div class="section-head"><span class="dnum">D7</span><h2>Developer Productivity &amp; Operational Enablement</h2><span class="w">7% · 2 modules</span></div>
+  <p class="lead">About 4 of 63 items — the smallest domain, and straightforward points if you've worked
+  in a team that standardized its tooling.</p>
+
+  <!-- 7.1 -->
+  <div class="modhead"><span class="mn">7.1</span><h3>Standardizing Claude Code Across a Team</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Make team tooling consistent, secure, and reviewable.</div>
+
+  <div class="cbox key"><div class="t">The principle</div>
+  Configuring Claude Code and the development environment <b>consistently across engineers</b> supports
+  secure, standardized use. Leaving it to individual preference undermines both consistency and security —
+  behavior varies per machine, bugs stop being reproducible, and no constraint can be relied upon because
+  no one knows whose setup has it.</div>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Layer</th><th style="width:14%">Nature</th><th>Belongs here</th></tr></thead>
+    <tbody>
+      <tr><td>Org policy · permission rules · hooks</td><td><b>Enforced</b></td><td>Constraints that must hold regardless of prompt or user. Anything phrased "must never."</td></tr>
+      <tr><td>Project memory (checked in)</td><td>Advisory</td><td>Conventions, commands, architecture notes, domain vocabulary, explicit non-goals.</td></tr>
+      <tr><td>Skills</td><td>Advisory</td><td>Recurring procedures loaded on demand when relevant.</td></tr>
+      <tr><td>Slash commands</td><td>Advisory</td><td>Prompts the team retypes often.</td></tr>
+      <tr><td>Personal settings</td><td>Individual</td><td>Ergonomics that don't affect output or security.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox warn"><div class="t">Configuration is code</div>
+  Shared configuration belongs in version control and goes through review. A hook is executable logic on
+  every engineer's machine; an over-broad permission rule silently widens what runs unattended across the
+  whole team. Review permission lists on a schedule — an allowlist nobody prunes eventually approximates
+  "allow everything."</div>
+
+  <!-- 7.2 -->
+  <div class="modhead"><span class="mn">7.2</span><h3>AI-Assisted Delivery Workflows</h3><span class="tag">~60 min</span></div>
+
+  <div class="obj"><b>Objectives —</b> Identify repeatable engineering activities worth accelerating, and
+  the controls that keep them safe.</div>
+
+  <p>Applying Claude to a <b>repeatable part of the software delivery process</b> — code review, test
+  generation, documentation — is the canonical example of an AI-assisted development workflow that improves
+  productivity. The architect's contribution is choosing which activities qualify and what verification
+  each requires.</p>
+
+  <table class="tight">
+    <thead><tr><th style="width:24%">Activity</th><th style="width:28%">Why it fits</th><th>Required control</th></tr></thead>
+    <tbody>
+      <tr><td><b>Code review assistance</b></td><td>High volume, pattern-rich, reviewer stays accountable.</td><td>Human approves the merge; treat findings as candidates, not verdicts.</td></tr>
+      <tr><td><b>Test generation</b></td><td>Repetitive and immediately verifiable.</td><td>Confirm tests fail against broken code — tests that always pass are worse than none.</td></tr>
+      <tr><td><b>Documentation</b></td><td>Language-heavy, low reversibility risk.</td><td>Technical accuracy review; docs drift from code.</td></tr>
+      <tr><td><b>Migration &amp; refactors</b></td><td>Mechanical, large-scale, well-specified.</td><td>Tests, staged rollout, reviewable diffs.</td></tr>
+      <tr><td><b>Incident summarization</b></td><td>Synthesis across noisy sources.</td><td>Verify claims against the underlying evidence.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Measure enablement like any other investment</div>
+  Track cycle time, review turnaround, defect escape rate, and adoption. "Engineers feel faster" is not a
+  result — and unmeasured enablement programs are the first thing cut when budgets tighten, precisely
+  because nobody can show what they returned.</div>
+
+  <h3 style="margin-top:20px;">Domain 7 — scenario items</h3>
+
+  <div class="qcard"><div class="qd">Item P7-1 · Module 7.1</div>
+  <div class="q">A platform reliability team wants every engineer working on a report-generation assistant to
+  use a consistent, shared Claude Code configuration rather than each configuring it individually. What's
+  the appropriate approach?</div>
+  <div class="opt">A. Publish a recommended setup and let engineers adopt it if they prefer</div>
+  <div class="opt">B. Standardize the configuration in version control, applying shared context and constraints across the team while leaving genuine personal preferences individual</div>
+  <div class="opt">C. Have each engineer tune their own setup for their workflow</div>
+  <div class="opt">D. Restrict Claude Code to a single designated engineer</div>
+  <div class="ans"><b>B.</b> Consistent configuration supports secure, standardized use and makes behavior
+  reproducible; leaving it to preference undermines both. A is B without the enforcement, so drift returns.
+  C is the status quo being corrected. D destroys the productivity benefit to solve a governance problem
+  that configuration management already solves.</div></div>
+
+  <div class="qcard"><div class="qd">Item P7-2 · Module 7.2</div>
+  <div class="q">A platform team uses Claude to improve a repeatable part of software delivery — code review,
+  test generation, documentation. What is this an example of?</div>
+  <div class="opt">A. An autonomous agent replacing engineering review</div>
+  <div class="opt">B. An AI-assisted development workflow that improves delivery productivity, with engineers still accountable for the output</div>
+  <div class="opt">C. A governance control</div>
+  <div class="opt">D. A model evaluation technique</div>
+  <div class="ans"><b>B.</b> Repeatable engineering activities are the canonical target for AI-assisted
+  workflows, and the accountability clause is what makes the framing correct. A overstates it — assistance
+  is not replacement, and the merge decision stays human. C and D name different things entirely; the
+  distinction matters because enablement, governance, and evaluation have different owners and metrics.</div></div>
+
+  <div class="footer-note">Practitioner Workbook · Domain 7 — Developer Productivity &amp; Enablement</div>
+</div>
+<!-- ============================ BACK MATTER ============================ -->
+<div class="page">
+  <h2 class="plain">6-week study plan</h2>
+  <p class="lead">Weighted to the blueprint. Integration and Solution Design together are 36% of the exam —
+  they get the most time. Domain 7 is 7% and gets an afternoon.</p>
+
+  <table class="tight">
+    <thead><tr><th style="width:9%">Week</th><th style="width:26%">Modules</th><th style="width:12%">Weight</th><th>Focus</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>1.1 – 1.5</td><td>17%</td><td>Pattern selection and NFRs. Write ADRs for all four drill scenarios — this is the reasoning every later domain builds on.</td></tr>
+      <tr><td><b>2</b></td><td>3.1 – 3.6</td><td>19%</td><td>Integration, the heaviest domain. Live in the least-privilege material until "remove the capability" is your reflex.</td></tr>
+      <tr><td><b>3</b></td><td>4.1 – 4.4 · 2.1 – 2.4</td><td>29%</td><td>Evaluation strategy and model/context decisions. Build one complete evaluation strategy end to end.</td></tr>
+      <tr><td><b>4</b></td><td>5.1 – 5.4</td><td>14%</td><td>Governance and risk. Memorize the documented limitations and the RAG injection answer.</td></tr>
+      <tr><td><b>5</b></td><td>6.1 – 6.4 · 7.1 – 7.2</td><td>21%</td><td>Stakeholder and lifecycle — the domain engineers underestimate. Do the no-jargon briefing drill out loud.</td></tr>
+      <tr><td><b>6</b></td><td>Full review</td><td>—</td><td>Re-do every scenario item, then run the four simulators under timed conditions.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox tip"><div class="t">Timing discipline — 63 items in 120 minutes</div>
+  That's about 1:54 per item, and CCAR-P stems are long vignettes. <b>Read the last sentence of the stem
+  first</b> — it usually contains the actual question — then read the scenario for the constraint. Flag and
+  move on rather than stalling; multiple-response items state how many to select, so count them. There is
+  no penalty for guessing, so never leave a blank.</div>
+
+  <div class="cbox exam"><div class="t">Highest-yield material if you're short on time</div>
+  <b>(1)</b> Least privilege — remove capability, don't monitor it (D3, heaviest domain) ·
+  <b>(2)</b> Workflow vs. agent, both directions (D1) ·
+  <b>(3)</b> Complete evaluation = accuracy + latency + cost + safety + security, and datasets need edge and ambiguous cases (D4) ·
+  <b>(4)</b> RAG injection = treat retrieved content as data + restrict what it can trigger (D5) ·
+  <b>(5)</b> Hallucination is a documented limitation to design around, never configured away (D5) ·
+  <b>(6)</b> Discovery precedes design; translate trade-offs into the audience's terms (D6).<br>
+  <span class="mini">Those six cover a substantial majority of the item bank's reasoning patterns.</span></div>
+
+  <h2 class="plain" style="margin-top:24px;">Module tracker</h2>
+  <p class="lead">Tick a module only when you can answer its question aloud, without notes, in under a minute.</p>
+
+  <table class="tight">
+    <thead><tr><th style="width:6%">✓</th><th style="width:7%">Mod</th><th style="width:30%">Title</th><th>Self-assessment question</th></tr></thead>
+    <tbody>
+      <tr><td>☐</td><td>1.1</td><td>Requirement → Architecture</td><td>Which requirement words rule out an agent architecture?</td></tr>
+      <tr><td>☐</td><td>1.2</td><td>Pattern Selection</td><td>What single property decides workflow vs. agent?</td></tr>
+      <tr><td>☐</td><td>1.3</td><td>Reference Architecture</td><td>Name the seven layers. Which is most often missing?</td></tr>
+      <tr><td>☐</td><td>1.4</td><td>Non-Functional Requirements</td><td>Which NFR most often invalidates a proposed pattern outright?</td></tr>
+      <tr><td>☐</td><td>1.5</td><td>Trade-offs &amp; ADRs</td><td>Why can't you optimize latency, cost, and accuracy together?</td></tr>
+      <tr><td>☐</td><td>2.1</td><td>Model Selection</td><td>Why are "always biggest" and "always cheapest" both wrong?</td></tr>
+      <tr><td>☐</td><td>2.2</td><td>Where Instructions Live</td><td>What goes in the system prompt vs. an enforced layer?</td></tr>
+      <tr><td>☐</td><td>2.3</td><td>Context Engineering</td><td>Which mechanism is the only cross-session one?</td></tr>
+      <tr><td>☐</td><td>2.4</td><td>Prompt Lifecycle</td><td>What three artifacts must change together?</td></tr>
+      <tr><td>☐</td><td>3.1</td><td>Integration Topology</td><td>What signal means batch rather than synchronous?</td></tr>
+      <tr><td>☐</td><td>3.2</td><td>RAG Architecture</td><td>State the two RAG rules. What happens with no not-found path?</td></tr>
+      <tr><td>☐</td><td>3.3</td><td>Tools &amp; MCP</td><td>State the N×M argument. When do you promote an action to its own tool?</td></tr>
+      <tr><td>☐</td><td>3.4</td><td>Least Privilege</td><td>Why is logging not a substitute for removing a capability?</td></tr>
+      <tr><td>☐</td><td>3.5</td><td>Data Boundaries</td><td>Name the five steps from classification to audit trail.</td></tr>
+      <tr><td>☐</td><td>3.6</td><td>Integration Resilience</td><td>Why must a refund tool be idempotent?</td></tr>
+      <tr><td>☐</td><td>4.1</td><td>Evaluation Strategy</td><td>Name the five dimensions. Why measure per resolved task?</td></tr>
+      <tr><td>☐</td><td>4.2</td><td>Eval Datasets</td><td>What must a dataset include beyond typical cases, and why?</td></tr>
+      <tr><td>☐</td><td>4.3</td><td>Lifecycle Testing</td><td>Why is a model swap a change event?</td></tr>
+      <tr><td>☐</td><td>4.4</td><td>Optimization</td><td>Name the cost levers in order. What must follow every one?</td></tr>
+      <tr><td>☐</td><td>5.1</td><td>Documented Limitations</td><td>Name four. Why is "eliminated by configuration" always wrong?</td></tr>
+      <tr><td>☐</td><td>5.2</td><td>Guardrails &amp; Injection</td><td>State the RAG injection answer in one sentence.</td></tr>
+      <tr><td>☐</td><td>5.3</td><td>Privacy &amp; Compliance</td><td>Why is an eval set built from production traffic a governance event?</td></tr>
+      <tr><td>☐</td><td>5.4</td><td>Human Oversight</td><td>Name the four requirements for meaningful oversight.</td></tr>
+      <tr><td>☐</td><td>6.1</td><td>Structured Discovery</td><td>What does skipping discovery reliably cause?</td></tr>
+      <tr><td>☐</td><td>6.2</td><td>Communicating Trade-offs</td><td>What are the two opposite communication failure modes?</td></tr>
+      <tr><td>☐</td><td>6.3</td><td>Delivery Lifecycle</td><td>What is a pilot actually for?</td></tr>
+      <tr><td>☐</td><td>6.4</td><td>Operations</td><td>Name four leading indicators worth alarming on.</td></tr>
+      <tr><td>☐</td><td>7.1</td><td>Claude Code Standardization</td><td>What does leaving configuration to preference undermine?</td></tr>
+      <tr><td>☐</td><td>7.2</td><td>AI-Assisted Delivery</td><td>Name three qualifying activities and the control each needs.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cbox exam"><div class="t">Answer key — quick reference</div>
+  <b>D1:</b> 1-B · 2-B · 3-B · 4-B &nbsp;·&nbsp; <b>D2:</b> 1-B · 2-B · 3-B &nbsp;·&nbsp;
+  <b>D3:</b> 1-C · 2-B · 3-B · 4-B · 5-B &nbsp;·&nbsp; <b>D4:</b> 1-B · 2-B · 3-B · 4-B &nbsp;·&nbsp;
+  <b>D5:</b> 1-B · 2-A · 3-C · 4-B &nbsp;·&nbsp; <b>D6:</b> 1-B · 2-B · 3-B · 4-B &nbsp;·&nbsp;
+  <b>D7:</b> 1-B · 2-B<br>
+  <span class="mini">The letters cluster because correct professional answers share a shape: name the
+  constraint, prevent rather than observe, keep an accountable human on consequential decisions, and
+  translate for the audience. <b>Rehearse the reasoning, not the letter</b> — the real exam shuffles
+  options, and only the rationale transfers.</span></div>
+
+  <div class="footer-note">Practitioner Workbook · Claude Certified Architect — Professional · Unofficial study aid · Not affiliated with or endorsed by Anthropic</div>
+</div>
